@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f7f2e8;
+  --foreground: #271f10;
+}
+
+@theme {
+  --color-app-background: var(--background);
+  --color-app-foreground: var(--foreground);
+  --color-app-primary: #674609;
+  --color-pastel-green: #8e9162;
+  --color-pastel-yellow: #d9d28d;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-style: var(--font-passions-conflict);
+  --font-niconne: var(--font-niconne);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* Target the root or scrollable container */
+@layer base {
+  html {
+    /* Firefox support: thumb-color track-color */
+    scrollbar-width: thin;
+    scrollbar-color: #8e9162 #f1f5f9;
+  }
+
+  /* Chrome, Edge, and Safari support */
+  ::-webkit-scrollbar {
+    width: 8px; /* Width of the vertical scrollbar */
+    height: 8px; /* Height of the horizontal scrollbar */
+  }
+
+  /* Track (the background of the scrollbar) */
+  ::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+  }
+
+  /* Handle (the draggable part) */
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
