@@ -19,12 +19,11 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #f7f2e8;
+    --foreground: #271f10;
   }
 }
 
-/* Target the root or scrollable container */
 @layer base {
   html {
     /* Firefox support: thumb-color track-color */
@@ -32,19 +31,18 @@
     scrollbar-color: #8e9162 #f1f5f9;
   }
 
-  /* Chrome, Edge, and Safari support */
   ::-webkit-scrollbar {
     width: 8px; /* Width of the vertical scrollbar */
     height: 8px; /* Height of the horizontal scrollbar */
   }
 
-  /* Track (the background of the scrollbar) */
+  /* Track */
   ::-webkit-scrollbar-track {
     background: #f1f5f9;
     border-radius: 4px;
   }
 
-  /* Handle (the draggable part) */
+  /* Handle */
   ::-webkit-scrollbar-thumb {
     background: #cbd5e1;
     border-radius: 4px;

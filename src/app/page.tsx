@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import Form from "next/form";
 
 interface Production {
@@ -44,6 +44,8 @@ const productions: Production[] = [
 ];
 
 export default function Home() {
+  const [isOpen, setIsOpen] = useState(false);
+
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const handleMovieClick = (movie: Production) => {
@@ -83,27 +85,63 @@ export default function Home() {
           />
         </div>
 
-        <header className="w-full flex justify-between items-center px-8 py-2 z-1">
-          <div className="flex gap-12 items-center text-xl">
+        <header className="w-full flex justify-between items-center px-4 md:px-8 py-2 z-1 relative">
+          <div className="hidden md:flex gap-12 items-center text-xl">
             <Link href="/">About</Link>
             <Link href="/about">Movies</Link>
           </div>
+
           <div className="flex flex-row items-center justify-center gap-2">
             <Image
               src="/logo/logo-white.png"
               alt="Zhagaram Studios Logo"
-              width={60}
-              height={60}
+              width={50}
+              height={50}
+              className="md:w-[60px] md:h-[60px]"
             />
             <div className="flex flex-col items-start justify-center">
-              <p className="font-bold text-xl">Zhagaram</p>
-              <p className="font-thin">Studios</p>
+              <p className="font-bold text-lg md:text-xl">Zhagaram</p>
+              <p className="font-thin text-sm md:text-base">Studios</p>
             </div>
           </div>
-          <div className="flex gap-12 items-center text-xl">
+
+          <div className="hidden md:flex gap-12 items-center text-xl">
             <Link href="/journal">Work</Link>
             <Link href="/contact">Contact</Link>
           </div>
+
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden flex flex-col gap-1.5 p-2 focus:outline-none"
+            aria-label="Toggle Menu"
+          >
+            <span
+              className={`w-6 h-0.5 bg-white transition-transform ${isOpen ? "rotate-45 translate-y-2" : ""}`}
+            />
+            <span
+              className={`w-6 h-0.5 bg-white transition-opacity ${isOpen ? "opacity-0" : "opacity-100"}`}
+            />
+            <span
+              className={`w-6 h-0.5 bg-white transition-transform ${isOpen ? "-rotate-45 -translate-y-2" : ""}`}
+            />
+          </button>
+
+          {isOpen && (
+            <div className="absolute top-full left-0 w-full bg-black/95 flex flex-col items-center gap-6 py-8 md:hidden text-xl border-b border-white/10">
+              <Link href="/" onClick={() => setIsOpen(false)}>
+                About
+              </Link>
+              <Link href="/about" onClick={() => setIsOpen(false)}>
+                Movies
+              </Link>
+              <Link href="/journal" onClick={() => setIsOpen(false)}>
+                Work
+              </Link>
+              <Link href="/contact" onClick={() => setIsOpen(false)}>
+                Contact
+              </Link>
+            </div>
+          )}
         </header>
 
         <div className="absolute flex flex-col items-center justify-center z-1 top-1/2 left-1">
@@ -151,9 +189,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Film Reel Track Container */}
           <div className="relative w-full">
-            {/* Horizontal Scroll Track */}
             <div
               ref={scrollRef}
               className="flex gap-8 overflow-x-auto px-12 md:px-24 py-8 no-scrollbar snap-x snap-mandatory scroll-smooth"
@@ -165,7 +201,6 @@ export default function Home() {
                   onClick={() => handleMovieClick(movie)}
                   className="group relative flex-none w-[310px] md:w-[400px] aspect-[16/10] bg-[#121215] flex flex-col justify-between cursor-pointer snap-center rounded-[3px] border border-zinc-800/40 shadow-[0_10px_40px_rgba(0,0,0,0.5)] transition-all duration-500 ease-out hover:scale-[1.03] hover:border-amber-500/30 hover:shadow-[0_20px_50px_rgba(217,119,6,0.1)]"
                 >
-                  {/* TOP FILM STRIP PERFORATIONS */}
                   <div className="w-full h-5 bg-[#0a0a0c] flex justify-between px-3 items-center border-b border-zinc-900/80">
                     {[...Array(12)].map((_, i) => (
                       <div
@@ -175,29 +210,23 @@ export default function Home() {
                     ))}
                   </div>
 
-                  {/* FILM CELL BODY / IMAGE FRAME */}
                   <div className="relative w-full flex-1 overflow-hidden bg-zinc-950">
-                    {/* Vintage Subtle Grain & Light Leak Layer */}
                     <div className="absolute inset-0 z-10 pointer-events-none mix-blend-screen opacity-0 group-hover:opacity-20 transition-opacity duration-700 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-amber-400 via-transparent to-transparent" />
 
-                    {/* Cinematic Vignette Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent z-10 transition-all duration-500 group-hover:from-black/90" />
 
-                    {/* Next.js Core Optimization Image Implementation */}
                     <Image
                       src={movie.thumbnail}
                       alt={movie.title}
                       fill
                       sizes="(max-w-768px) 310px, 400px"
                       className="object-cover filter saturate-[0.85] contrast-[1.05] transition-all duration-700 ease-out scale-100 group-hover:scale-105 group-hover:saturate-100"
-                      priority={movie.id === "1"} // Eases LCP scores for the initial frame
+                      priority={movie.id === "1"}
                     />
 
-                    {/* Left/Right Frame Lines */}
                     <div className="absolute inset-y-0 left-0 w-[1px] bg-zinc-900/60 z-10" />
                     <div className="absolute inset-y-0 right-0 w-[1px] bg-zinc-900/60 z-10" />
 
-                    {/* Elegant Typography Overlay */}
                     <div className="absolute inset-x-0 bottom-0 p-5 z-20 flex justify-between items-end transform translate-y-1 group-hover:translate-y-0 transition-transform duration-500 ease-out">
                       <div className="max-w-[75%]">
                         <span className="text-[10px] font-mono tracking-widest text-amber-400/80 uppercase block mb-1">
@@ -215,7 +244,6 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* BOTTOM FILM STRIP PERFORATIONS */}
                   <div className="w-full h-5 bg-[#0a0a0c] flex justify-between px-3 items-center border-t border-zinc-900/80">
                     {[...Array(12)].map((_, i) => (
                       <div
@@ -235,10 +263,10 @@ export default function Home() {
         <div className="max-w-7xl flex flex-col items-center justify-center text-center">
           <h2 className="text-5xl mb-4 font-bold">Get in Touch</h2>
         </div>
-        <div className="flex items-center justify-between gap-20 w-full max-w-7xl px-10 pt-10">
+        <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between gap-12 lg:gap-20 w-full max-w-7xl px-4 sm:px-10 pt-10">
           <Form
             action="/api/contact"
-            className="flex flex-col gap-4 w-full max-w-md bg-white p-6 rounded-lg shadow-md"
+            className="flex flex-col gap-4 w-full max-w-md bg-white p-6 rounded-lg shadow-md order-2 lg:order-1"
           >
             <input
               type="text"
@@ -267,26 +295,35 @@ export default function Home() {
               Send Message
             </button>
           </Form>
-          <div className="max-w-7xl flex flex-col items-start justify-center">
-            <h2 className="text-4xl mb-4 font-bold">Our Address</h2>
-            <p className="text-base text-left mb-8 min-w-[300px] text-lg">
+
+          <div className="w-full max-w-md lg:max-w-7xl flex flex-col items-center lg:items-start justify-center order-1 lg:order-2 text-center lg:text-left">
+            <h2 className="text-3xl sm:text-4xl mb-4 font-bold">Our Address</h2>
+            <p className="mb-6 sm:mb-8 text-base sm:text-lg tracking-wide leading-relaxed">
               Zhagaram Studios Pvt. Ltd. <br />
               43/20, 2nd floor, Akshaya Suriya Appartment, <br />
               Besant avenue road , Adyar, Chennai - 600020. <br />
               +91 44 42046111
             </p>
-            <p className="font-bold text-left mb-8 min-w-[300px] text-lg">
+            <p className="font-bold text-base sm:text-lg">
               info@zhagaramstudios.com
             </p>
           </div>
         </div>
       </section>
 
-      <footer className="w-full bg-pastel-green py-6 text-center">
-        <p className="text-sm">
-          &copy; {new Date().getFullYear()} Zhagaram Studios. All rights
-          reserved. Created by The Artwork Labs
-        </p>
+      <footer className="w-full bg-pastel-green py-6 px-4 text-center">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-4 text-sm text-app-foreground">
+          <p>
+            &copy; {new Date().getFullYear()} Zhagaram Studios. All rights
+            reserved.
+          </p>
+          <p className="font-medium">
+            Created by
+            <span className="hover:underline cursor-pointer">
+              The Artwork Labs
+            </span>
+          </p>
+        </div>
       </footer>
     </main>
   );
